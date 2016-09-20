@@ -9,7 +9,7 @@ describe('Conexion base de datos', function() {
 			request.get(baseUrl + '/conexion').end(function assert(err,res){
 				expect(err).to.not.be.ok;
 				expect(res).to.have.property('status',200);
-        expect(res.text).to.equal('ok');
+        expect(res.text).to.equal('conectado a mongo');
 				done();
 			});
 

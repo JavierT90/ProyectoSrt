@@ -225,3 +225,45 @@ function archivoObjeto(callback){
   });
   callback("Exito");
 }
+
+
+
+app.get('/conexion',
+  function sendResponse(req,res)
+  {
+    var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/subtitulos', function(error){
+   if(error){
+      throw error;
+      res.status(200).send("Error en la conexion");
+   }else{
+      console.log('Conectado a MongoDB');
+      res.status(200).send("conectado a mongo");
+   }
+});
+mongoose.connection.close();
+  }
+);
+
+
+
+app.get('/pruebainsertar',
+  function sendResponse(req,res)
+  {
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/test');
+    var Cat = mongoose.model('Cat', { name: String });
+    var kitty = new Cat({ name: 'gatito22' });
+    kitty.save(function (err) {
+    if (err) {
+      console.log(err);
+      res.status(200).send("error al insertar");
+    } else {
+      console.log('meow');
+      res.status(200).send("insertado a mongo");
+      }
+});
+
+  mongoose.connection.close();
+  }
+);
