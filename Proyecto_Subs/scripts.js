@@ -3,7 +3,11 @@ $(function() {
     $("#btn").click(function()
             {
               var parametros={text:"hateful love",from:"en",to:"es"}
-              socket.emit('traducir',parametros);
+              socket.emit('traducirF',parametros);
+            });
+    $("#btn_guardardb").click(function()
+            {
+                socket.emit("GuardarEnMongo");
             });
     $("#btn_descargar").click(function()
             {
@@ -17,6 +21,7 @@ $(function() {
               console.log(t+" "+" "+f+" "+d);
               var parametros={text:t,from:f,to:d}
               socket.emit('traducirR',parametros)
+
             });
     $("#btn_traducir").click(function()
             {

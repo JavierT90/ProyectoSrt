@@ -10,7 +10,7 @@ fileSystem = require('fs'),
 path = require('path');
 var body_parser   = require('body-parser');
 var multipart = require('connect-multiparty');
-
+var nombreultimoarchivo="";
 app.use(body_parser());
 
 app.use(multipart());
@@ -51,6 +51,7 @@ app.get('/traducir',
     Traducir(query,function(Respuesta){
         res.status(200).send(Respuesta);
     });
+
   }
 );
 app.get('/download',
@@ -68,6 +69,7 @@ app.post('/upload', function(req, res) {
    var fs = require('fs')
    var path = req.files.archivo.path
    var newPath = 'temporal.srt'
+   nombreultimoarchivo=req.files.archivo.originalFilename
    var is = fs.createReadStream(path)
    var os = fs.createWriteStream(newPath)
    is.pipe(os)
@@ -112,6 +114,7 @@ io.on('connection', function (socket) {
         }
         else
         {
+          console.log(data);
           socket.emit("traducido",data);
         }
       });
@@ -126,6 +129,40 @@ socket.on('descargarSRT',function(data)
 
 
 });
+
+socket.on('GuardarEnMongo',function(data)
+{
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, '/traducido.srt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+      if (!err){
+
+        var mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/test');
+        var Cat = mongoose.model('Cat', { name: String , text: String});
+        var kitty = new Cat({ name: nombreultimoarchivo , text:data });
+        kitty.save(function (err) {
+        if (err) {
+          console.log(err);
+
+        } else {
+          console.log('Guardado');
+
+          }
+        });
+        //mongoose.connection.close();
+
+
+              }else{
+          console.log(err);
+      }
+
+  });
+
+});
+
 socket.on('traducir', function(data){
   //        console.log(data);
           params=data;
@@ -178,6 +215,7 @@ function  hacerListaSRT(){
 
   //this is sync way
   var texto = fs.readFileSync(filePath, 'utf8');
+  console.log(texto);
   textoSplit = texto.split("\n");
   for(x=0; x<textoSplit.length;x=x+4){
     var num=textoSplit[x];
@@ -270,7 +308,10 @@ app.get('/pruebainsertar',
 
 
 
-app.post('/insertararchivo', function (req, res) {
+
+
+
+app.get('/insertararchivo', function (req, res) {
 
 
 
@@ -284,7 +325,7 @@ app.post('/insertararchivo', function (req, res) {
         var mongoose = require('mongoose');
         mongoose.connect('mongodb://localhost/test');
         var Cat = mongoose.model('Cat', { name: String , text: String});
-        var kitty = new Cat({ name: req.files.archivo.originalFilename , text:data });
+        var kitty = new Cat({ name: nombreultimoarchivo , text:data });
         kitty.save(function (err) {
         if (err) {
           console.log(err);
@@ -294,7 +335,7 @@ app.post('/insertararchivo', function (req, res) {
           res.status(200).send("insertado a mongo");
           }
         });
-        //mongoose.connection.close();
+        mongoose.connection.close();
 
 
               }else{
@@ -302,7 +343,5 @@ app.post('/insertararchivo', function (req, res) {
       }
 
   });
-
-
 
 });
