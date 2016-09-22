@@ -11,6 +11,7 @@ path = require('path');
 var body_parser   = require('body-parser');
 var multipart = require('connect-multiparty');
 var nombreultimoarchivo="";
+var idiomafinal="";
 app.use(body_parser());
 
 app.use(multipart());
@@ -141,8 +142,8 @@ socket.on('GuardarEnMongo',function(data)
 
         var mongoose = require('mongoose');
         mongoose.connect('mongodb://localhost/test');
-        var Cat = mongoose.model('Cat', { name: String , text: String});
-        var kitty = new Cat({ name: nombreultimoarchivo , text:data });
+        var Cat = mongoose.model('Cat', { name: String , text: String , idioma: String});
+        var kitty = new Cat({ name: nombreultimoarchivo , text:data, idioma:idiomafinal });
         kitty.save(function (err) {
         if (err) {
           console.log(err);
@@ -166,16 +167,19 @@ socket.on('GuardarEnMongo',function(data)
 socket.on('traducir', function(data){
   //        console.log(data);
           params=data;
+
           hacerListaSRT();
           socket.emit("traducido","hecho")
         });
 socket.on('traducirR',function(data)
 {
   genint=0;
+  idiomafinal=params.to;
   for(var i=0;i<list.length;i++)
   {
     client.translate({text:(i+" @ "+list[i].texto),from:params.from,to:params.to} , function(err,data)
     {
+
       if(err)
       {
         console.log(err);

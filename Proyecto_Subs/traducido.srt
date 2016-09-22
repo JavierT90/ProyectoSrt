@@ -1,12 +1,12 @@
 1
 00:00:01,067 --> 00:00:02,568
- mon nom est Shaun T.
+ mein Name ist Shaun T.
 
 2
 00:00:02,569 --> 00:00:05,538
- Bienvenue à la folie, un programme de conditionnement de 60 jours...
+ Willkommen in den Wahnsinn, eine 60-Tage-Fitness-Programm...
 
 3
 00:00:05,539 --> 00:00:05,538
- tous les maux ne se termine jamais.
+ alles Böse endet nie.
 
