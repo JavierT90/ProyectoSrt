@@ -4,18 +4,26 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var fs = require('fs');
 var exec = require('child_process').exec;
-var execSync = require('exec-sync');
+//var execSync = require('exec-sync');
 var MsTranslator = require('mstranslator');
 fileSystem = require('fs'),
 path = require('path');
 var body_parser   = require('body-parser');
 var multipart = require('connect-multiparty');
 
+      var mongoose = require('mongoose');
+
+      mongoose.connect('mongodb://localhost/test');
+      
+       var cats = mongoose.model('cats', { name: String, idioma: String,text:String});
+
 app.use(body_parser());
 
 app.use(multipart());
 
+
 server.listen(8080);
+
 var client = new MsTranslator({
         client_id: "772661829323321212",
         client_secret: "gepZTKt3yjyLCW0uqRkYOA1+BhEip/eKtaVNdo8n2Uk="
@@ -24,21 +32,21 @@ var client = new MsTranslator({
 app.get('/',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/cliente.html");
+        res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/cliente.html");
     }
 );
 
 app.get('/socket.io-1.3.5.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/socket.io-1.3.5.js");
+        res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/socket.io-1.3.5.js");
     }
 );
 
 app.get('/scripts.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/scripts.js");
+        res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/scripts.js");
     }
 );
 app.get('/traducir',
@@ -78,6 +86,39 @@ app.post('/upload', function(req, res) {
    res.send('¡archivo subido!')
 })
 
+//_________________________
+app.get('/listarSub',
+    function(req,res)
+    {
+      res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/MostrarSubtitulos.html");               
+    }
+);
+
+
+
+
+/*
+//Enviando la lista de archivos 
+var listener = io.listen(server);
+listener.sockets.on('connection', function(socket){
+
+       
+       console.log('variable creada');
+       cats.find({}, function(err, docs) {
+          if (!err){
+              socket.emit('datarecibida', 'hola');//{'message': "hola mundo"}
+              console.log(docs);
+              mongoose.connection.close();
+
+              //process.exit();
+          } else {               
+            mongoose.connection.close();
+throw err;}
+       }); 
+
+});
+
+*/
 
 
 
@@ -117,15 +158,34 @@ io.on('connection', function (socket) {
       });
 
     });
+
+socket.on('listarSub',function(data)
+{
+
+cats.find({}, function(err, docs) {
+          if (!err){
+              socket.emit('datarecibida', docs);//{'message': "hola mundo"}
+              console.log(docs);
+              mongoose.connection.close();
+
+              //process.exit();
+          } else {               
+            mongoose.connection.close();
+throw err;}
+       });
+
+});
+
+
 socket.on('descargarSRT',function(data)
 {
   archivoObjeto(function()
   {
   socket.emit("descargaAuth","Hecho!");
   });
-
-
 });
+
+
 socket.on('traducir', function(data){
   //        console.log(data);
           params=data;
@@ -225,3 +285,25 @@ function archivoObjeto(callback){
   });
   callback("Exito");
 }
+
+
+app.get('/pruebainsertar',
+  function sendResponse(req,res)
+  {
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/test');
+    var Cat = mongoose.model('Cat', { name: String });
+    var kitty = new Cat({ name: 'gatito22' });
+    kitty.save(function (err) {
+    if (err) {
+      console.log(err);
+      res.status(200).send("error al insertar");
+    } else {
+      console.log('meow');
+      res.status(200).send("insertado a mongo");
+      }
+});
+
+  mongoose.connection.close();
+  }
+);

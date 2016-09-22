@@ -1,5 +1,7 @@
 $(function() {
     var socket = io();
+    
+
     $("#btn").click(function()
             {
               var parametros={text:"hateful love",from:"en",to:"es"}
@@ -9,6 +11,15 @@ $(function() {
             {
                 socket.emit("descargarSRT","Vamooos!");
             });
+
+    $("#btn_showSub").click(function()
+            {
+                socket.emit("listarSub","Vamooos!");
+            });
+
+
+
+
     $("#btn_1").click(function()
             {
               var t=$("#entrada").val();
@@ -31,8 +42,39 @@ $(function() {
         console.log(data);
         $("#salida").val(data);
       });
+
     socket.on('descargaAuth', function (data) {
           window.open("http://localhost:8080/download");
         });
+
+    socket.on('listarRespuesta', function (data) {
+          window.open("http://localhost:8080/listarSub");
+        });
+    socket.on('datarecibida', function (data) {
+          console.log(data);
+
+var person = data; 
+
+var text = "<br><br> <h2 align=\"center\"> Lista De Subtitulos</h2>"
+text +="<table align=\"center\" BORDER=1 WIDTH=300>";
+var x;
+
+for (x in person) {
+    text+="<tr>";   
+    text +="<td> Nombre:"+ person[x].nombre+"</td> \n";
+    text +="<td> Idioma:"+ person[x].idioma+"</td> \n";
+    text +="<td> Idioma:"+ person[x].text+"</td> \n";
+    text+="</tr>";
+}
+
+text+="</table>";
+
+
+$('#div1').append(text);
+
+        });
+
+
+
 
 });
