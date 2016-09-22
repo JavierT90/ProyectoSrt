@@ -24,21 +24,21 @@ var client = new MsTranslator({
 app.get('/',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/cliente.html");
+        res.sendFile(__dirname+"/cliente.html");
     }
 );
 
 app.get('/socket.io-1.3.5.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/socket.io-1.3.5.js");
+        res.sendFile(__dirname+"/socket.io-1.3.5.js");
     }
 );
 
 app.get('/scripts.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/scripts.js");
+        res.sendFile(__dirname+"/scripts.js");
     }
 );
 app.get('/traducir',
@@ -267,3 +267,42 @@ app.get('/pruebainsertar',
   mongoose.connection.close();
   }
 );
+
+
+
+app.post('/insertararchivo', function (req, res) {
+
+
+
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, '/temporal.srt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+      if (!err){
+
+        var mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/test');
+        var Cat = mongoose.model('Cat', { name: String , text: String});
+        var kitty = new Cat({ name: req.files.archivo.originalFilename , text:data });
+        kitty.save(function (err) {
+        if (err) {
+          console.log(err);
+          res.status(200).send("error al insertar");
+        } else {
+          console.log('meow');
+          res.status(200).send("insertado a mongo");
+          }
+        });
+        //mongoose.connection.close();
+
+
+              }else{
+          console.log(err);
+      }
+
+  });
+
+
+
+});
