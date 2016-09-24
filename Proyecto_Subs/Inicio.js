@@ -21,6 +21,9 @@ app.use(body_parser());
 
 app.use(multipart());
 
+app.use(express.static(__dirname + '/style'));
+app.use(express.static(__dirname + '/fondo.jpg'));
+
 
 server.listen(8080);
 
@@ -35,6 +38,15 @@ app.get('/',
         res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/cliente.html");
     }
 );
+
+app.get('/style.css', function(req, res){
+  res.sendFile(__dirname + '/style.css');
+});
+
+app.get('/fondo.jpg', function(req, res){
+  res.sendFile(__dirname + '/fondo.jpg');
+});
+
 
 app.get('/socket.io-1.3.5.js',
     function(req,res)
@@ -61,6 +73,8 @@ app.get('/traducir',
     });
   }
 );
+
+
 app.get('/download',
   function sendResponse(req,res)
   {
@@ -93,32 +107,6 @@ app.get('/listarSub',
       res.sendFile("C:/Users/Skrillfer/Documents/git/ProyectoSrt/Proyecto_Subs/MostrarSubtitulos.html");               
     }
 );
-
-
-
-
-/*
-//Enviando la lista de archivos 
-var listener = io.listen(server);
-listener.sockets.on('connection', function(socket){
-
-       
-       console.log('variable creada');
-       cats.find({}, function(err, docs) {
-          if (!err){
-              socket.emit('datarecibida', 'hola');//{'message': "hola mundo"}
-              console.log(docs);
-              mongoose.connection.close();
-
-              //process.exit();
-          } else {               
-            mongoose.connection.close();
-throw err;}
-       }); 
-
-});
-
-*/
 
 
 
