@@ -10,7 +10,8 @@ fileSystem = require('fs'),
 path = require('path');
 var body_parser   = require('body-parser');
 var multipart = require('connect-multiparty');
-
+var nombreultimoarchivo="";
+var idiomafinal="";
 app.use(body_parser());
 
 app.use(multipart());
@@ -24,21 +25,21 @@ var client = new MsTranslator({
 app.get('/',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/cliente.html");
+        res.sendFile(__dirname+"/cliente.html");
     }
 );
 
 app.get('/socket.io-1.3.5.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/socket.io-1.3.5.js");
+        res.sendFile(__dirname+"/socket.io-1.3.5.js");
     }
 );
 
 app.get('/scripts.js',
     function(req,res)
     {
-        res.sendFile("/home/ricky/proyectoanalisis/Proyecto_Subs/Proyecto_Subs/scripts.js");
+        res.sendFile(__dirname+"/scripts.js");
     }
 );
 app.get('/traducir',
@@ -51,6 +52,7 @@ app.get('/traducir',
     Traducir(query,function(Respuesta){
         res.status(200).send(Respuesta);
     });
+
   }
 );
 app.get('/download',
@@ -68,6 +70,7 @@ app.post('/upload', function(req, res) {
    var fs = require('fs')
    var path = req.files.archivo.path
    var newPath = 'temporal.srt'
+   nombreultimoarchivo=req.files.archivo.originalFilename
    var is = fs.createReadStream(path)
    var os = fs.createWriteStream(newPath)
    is.pipe(os)
@@ -112,6 +115,7 @@ io.on('connection', function (socket) {
         }
         else
         {
+          console.log(data);
           socket.emit("traducido",data);
         }
       });
@@ -126,19 +130,56 @@ socket.on('descargarSRT',function(data)
 
 
 });
+
+socket.on('GuardarEnMongo',function(data)
+{
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, '/traducido.srt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+      if (!err){
+
+        var mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/test');
+        var Cat = mongoose.model('Cat', { name: String , text: String , idioma: String});
+        var kitty = new Cat({ name: nombreultimoarchivo , text:data, idioma:idiomafinal });
+        kitty.save(function (err) {
+        if (err) {
+          console.log(err);
+
+        } else {
+          console.log('Guardado');
+
+          }
+        });
+        //mongoose.connection.close();
+
+
+              }else{
+          console.log(err);
+      }
+
+  });
+
+});
+
 socket.on('traducir', function(data){
   //        console.log(data);
           params=data;
+
           hacerListaSRT();
           socket.emit("traducido","hecho")
         });
 socket.on('traducirR',function(data)
 {
   genint=0;
+  idiomafinal=params.to;
   for(var i=0;i<list.length;i++)
   {
     client.translate({text:(i+" @ "+list[i].texto),from:params.from,to:params.to} , function(err,data)
     {
+
       if(err)
       {
         console.log(err);
@@ -178,6 +219,7 @@ function  hacerListaSRT(){
 
   //this is sync way
   var texto = fs.readFileSync(filePath, 'utf8');
+  console.log(texto);
   textoSplit = texto.split("\n");
   for(x=0; x<textoSplit.length;x=x+4){
     var num=textoSplit[x];
@@ -225,3 +267,85 @@ function archivoObjeto(callback){
   });
   callback("Exito");
 }
+
+
+
+app.get('/conexion',
+  function sendResponse(req,res)
+  {
+    var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/subtitulos', function(error){
+   if(error){
+      throw error;
+      res.status(200).send("Error en la conexion");
+   }else{
+      console.log('Conectado a MongoDB');
+      res.status(200).send("conectado a mongo");
+   }
+});
+mongoose.connection.close();
+  }
+);
+
+
+
+app.get('/pruebainsertar',
+  function sendResponse(req,res)
+  {
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/test');
+    var Cat = mongoose.model('Cat', { name: String });
+    var kitty = new Cat({ name: 'gatito22' });
+    kitty.save(function (err) {
+    if (err) {
+      console.log(err);
+      res.status(200).send("error al insertar");
+    } else {
+      console.log('meow');
+      res.status(200).send("insertado a mongo");
+      }
+});
+
+  mongoose.connection.close();
+  }
+);
+
+
+
+
+
+
+app.get('/insertararchivo', function (req, res) {
+
+
+
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, '/temporal.srt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+      if (!err){
+
+        var mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/test');
+        var Cat = mongoose.model('Cat', { name: String , text: String});
+        var kitty = new Cat({ name: nombreultimoarchivo , text:data });
+        kitty.save(function (err) {
+        if (err) {
+          console.log(err);
+          res.status(200).send("error al insertar");
+        } else {
+          console.log('meow');
+          res.status(200).send("insertado a mongo");
+          }
+        });
+        mongoose.connection.close();
+
+
+              }else{
+          console.log(err);
+      }
+
+  });
+
+});
