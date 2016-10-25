@@ -1,0 +1,116 @@
+Socket solicitado a servidor cada vez que se carga la pagina cliente
+
+____________________________________________
+file.html<-----
+<head>
+<script type="text/javascript" src="scripts.js"></script>
+<script>
+	var socket = io.connect('http://localhost:8080');
+        socket.emit("listarSub","assa");
+</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+____________________________________________
+
+____________________________________________
+server.js
+
+
+[//Globales
+
+      var mongoose = require('mongoose');
+
+      mongoose.connect('mongodb://localhost/test');
+      var cats = mongoose.model('cats', { name: String, idioma: String,text:String});
+
+]
+
+var io = require('socket.io')(server);
+socket.on('listarSub',function(data)
+{
+
+cats.find({}, function(err, docs) {
+          if (!err){
+              socket.emit('datarecibida', docs);//{'message': "hola mundo"}
+              console.log(docs);
+              //mongoose.connection.close();
+
+              //process.exit();
+          } else {               
+            mongoose.connection.close();
+throw err;}
+       });
+
+});
+____________________________________________
+
+
+____________________________________________
+scripts.js
+
+socket.on('datarecibida', function (data) {
+          console.log(data);
+
+      var person = data; 
+
+      var text = "<br><br> <h2 align=\"center\"> Lista De Subtitulos</h2>"
+      text +="<table align=\"center\" BORDER=1 WIDTH=300>";
+      var x;
+
+      for (x in person) {
+          text+="<tr>";   
+          text +="<td> Nombre:"+ person[x].nombre+"</td> \n";
+          text +="<td> Idioma:"+ person[x].idioma+"</td> \n";
+          text +="<td> Idioma:"+ person[x].text+"</td> \n";
+          text+="</tr>";
+      }
+
+      text+="</table>";
+      $('#div1').append(text);
+      });
+____________________________________________
+
+
+Socket solicitado a servidor cada vez que sucede un evento en el cliente click o cada vez que se refresca cualquier pagina (click en boton, click en referencia)
+
+_______server.js
+
+io.sockets.on('connection', function (socket) {
+cats.find({}, function(err, docs) {
+          if (!err){
+              socket.emit('message', docs);
+              console.log("hola!!!!");
+              //socket.emit('datarecibida', docs);//{'message': "hola mundo"}
+              //console.log(docs);
+              //mongoose.connection.close();
+
+          } else {               
+            mongoose.connection.close();
+throw err;}
+       });
+
+});
+
+________________________click en un href y obtener su nombre
+
+$(document).ready(function(){
+        $('a').bind('click', function(e) {           
+          var url = $(this).attr('href');
+          $.ajax({url,success:function(result){
+            if(url=="/listarSub"){
+              //alert(url);
+            }
+            
+            $("").html(result);
+          }});   
+        });  
+    });
+    
+
+
+
+
+
+

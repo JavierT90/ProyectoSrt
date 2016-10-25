@@ -1,0 +1,18 @@
+﻿1
+00:00:01,067 --> 00:00:02,568
+Mi nombre es fernando.
+
+
+
+
+2
+00:00:02,569 --> 00:00:05,538
+Y bienvenidos este frio ...
+
+
+
+
+
+3
+00:00:05,539 --> 00:00:05,538
+ya me quiero ir a la casa.

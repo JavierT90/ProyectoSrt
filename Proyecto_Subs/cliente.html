@@ -4,26 +4,46 @@
 
 <head>
 <!-- -->
-<title>Cliente Socketio</title>
+<title>Home</title>
 <link href="style.css" type="text/css" rel="stylesheet" />
 <link href="fondo.jpg" type="file"/>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="socket.io-1.3.5.js"></script>
 <script type="text/javascript" src="scripts.js"></script>
 <script>
 </script>
+
+<script>
+
+   var socket = io.connect('http://localhost:8080');
+   socket.emit("verSession","assa");
+</script>
+
 </head>
 <body>
 
-<ul>
-  <li><a href="default.asp">Home</a></li>
-  <li><a href="news.asp">Subtitulos</a></li>
+<ul id="menulista">
+  <li><a href="/">Home</a></li>
+  <li id="registro"><a href="/registro">Login/Registrar</a></li>
+  <li><a href="/listarSub">Subtitulos</a></li>
   <li><a href="contact.asp">Contacto</a></li>
-  <li><a href="about.asp">About</a></li>
+  <li><a href="/acerca">About</a></li>
+
 </ul>
 
-  <div>
+
+  <div id="divRaiz">
+    <div id="informacion">
+      <h2>Registrate</h2>
+      <div>Al registrarte podras editar subtitulos, que han sido traducios por otros usuarios, incluso puedes descargar subtitulos
+        de los usuarios</div>
+      <h2>Instrucciones</h2>
+      <div>1)Selecciona el archivo <br> 2) Click en Subir <br> 3)Click en Traducir <br>4) Click en Generar Archivo: esto permite generar el archivo
+        que has subido con anterioridad ya traducido al idioma destino, y lo prepara para la descarga <br> 5) Click en Descargar</div>
+    </div>
+
+    <h2>Selecciona Los Idiomas</h2>
     <h3>Origen</h3>
     <select id='combobox_origen'>
       <option value="en">English</option>
@@ -140,8 +160,9 @@
       </select>
   </div>
   <br><br>
+  <h2>Sube el archivo que quieres traducir</h2>
   <form action="/upload" method='POST' enctype='multipart/form-data'>
-     <input type="file" name='archivo'>
+     <input type="file" name='archivo' id="archivo">
      <input type="submit" value='Subir' id="btn_Subir">
   </form>
 
@@ -149,17 +170,17 @@
   <input type='text' id="salida">
 
 <br><br>
-    <button id="btn_traducir"style='width:200px; height:100px' >Traducir</button>
-    <button id="btn_descargar"style='width:200px; height:100px'>Descargar</button>
-     
+    <button id="btn_traducir"style='width:200px; height:60px' ><img src="translate.png" alt="x" /></button>
+    <button id="btn_descargar"style='width:200px; height:60px'><img src="descargar.png" alt="x" /></button>
 
 
-    <button id="btn_1"style='width:200px; height:100px' >Generar</button>
 
+    <button id="btn_1"style='width:200px; height:60px' ><img src="generar.png" alt="x" /></button>
+    <button id="btn_g"style='width:200px; height:60px' >Guardar</button>
 <br><br>
-    <button id="btn_showSub" padding: '10px 20px 10px 20px';   >Ver Subtitulos</button>
+    <!--<button id="btn_showSub" padding: '10px 20px 10px 20px';   >Ver Subtitulos</button>-->
+
 
 <div id="div1"></div>
-
 </body>
 </html>

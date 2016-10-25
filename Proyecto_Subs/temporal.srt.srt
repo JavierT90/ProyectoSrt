@@ -1,0 +1,12 @@
+1
+00:00:01,067 --> 00:00:02,568
+ my name is Shaun T.
+
+2
+00:00:02,569 --> 00:00:05,538
+ Welcome to madness, a 60-day fitness program...
+
+3
+00:00:05,539 --> 00:00:05,538
+ all evil never ends.
+

@@ -1,0 +1,134 @@
+
+<html>
+
+<head>
+<title>Login/Registro</title>
+<link href="style.css" type="text/css" rel="stylesheet" />
+<link href="fondo.jpg" type="file"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="socket.io-1.3.5.js"></script>
+<script type="text/javascript" src="scripts.js"></script>
+
+<script>
+	
+</script>
+</head>
+<body>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li ><a href="/registro">Login/Registrar</a></li>
+  <li><a href="/listarSub">Subtitulos</a></li>
+  <li><a href="contact.asp">Contacto</a></li>
+  <li><a href="/acerca">About</a></li>
+</ul>
+
+<div id="divLog">
+<table id="tableLog">
+
+<tr >
+	<th id="thL1"></th>
+	<th>
+        <label id="IniciarSesion"  class="title">Iniciar Sesion: </label>
+	</th>
+    <th>
+        <label for="nickname" class="title">Nickname: </label>
+        <input type="text" id="Lg1" name="nickname" />
+    </th>
+    <th>
+        <label for="password" class="title">Password: </label>
+        <input type="password" id="Lg2" name="password" />
+    </th>
+    <th >
+	   	<button id="btn_entrar"style='width:90px; height:40px '  >Entrar</button>
+	</th>
+	<th id="thLF"></th>
+</tr>
+</table>
+</div>
+
+
+
+<div id="divReg">
+<table align="center">
+<h3 align="center">Registrame</h3>
+
+<tr>
+
+    <th>
+    	<label for="nombre" class="title">Nombre: </label>
+    	<input type="text" id="Rg1"  name="nombre" required/>
+	</th>
+</tr>
+<tr>
+    <td >
+    
+	</td>
+</tr>
+
+<tr>
+    <th >
+        <label for="apellidos" class="title">Apellidos: </label>
+        <input type="text" id="Rg2" name="apellidos" />
+    </th>
+</tr>
+<tr>
+    <td>
+	    
+    </td>
+</tr>
+
+<tr>
+    <th>
+        <label for="nickname" class="title">Nickname: </label>
+        <input type="text" id="Rg3" name="nickname" />
+    </th>
+</tr>
+<tr>
+    <td>
+        
+    </td>
+</tr>
+
+<tr>
+    <th>
+        <label for="email" class="title">Email: </label>
+        <input type="email" id="Rg4" name="email" />
+    </th>
+</tr>
+<tr>
+    <td>
+        
+    </td>
+</tr>
+
+<tr>
+    <th>
+        <label for="password" class="title">Password: </label>
+        <input type="password" id="Rg5" name="password" />
+    </th>
+</tr>
+<tr>
+    <td>
+	    
+    </td>
+</tr>
+
+<tr>
+    <th>
+        <label for="confirm" class="title">Confirmar Password: </label>
+        <input type="password" id="Rg6" name="confirm" />
+    </th>
+</tr>
+<tr>
+	<td>
+		<button id="btn_registrar"style='width:90px; height:40px '  >Registrar</button>
+ 		<button id="btn_limpiar"style='width:90px; height:40px' >Limpiar</button>
+	</td>
+</tr>
+</table>
+
+</div>
+</body>
+</html>

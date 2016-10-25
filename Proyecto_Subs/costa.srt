@@ -1,0 +1,12 @@
+1
+00:00:01,067 --> 00:00:02,568
+ my name is fernando.
+
+2
+00:00:02,569 --> 00:00:05,538
+ and welcome this cold...
+
+3
+00:00:05,539 --> 00:00:05,538
+ now I want to go to the House.
+

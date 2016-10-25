@@ -1,0 +1,286 @@
+body {
+	/*background:#E6E6FA	;*/
+	background-image:url("fondo.jpg");
+
+	font-family:Comic Sans MS;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: red;
+}
+
+li#bienvenido a {
+    display: block;
+    color: yellow;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li#logout a {
+    display: block;
+    color: blue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+button#btn_1 { /* clase general */
+
+    background-color: white; /* Green */
+    border: none;
+    color: white;
+    /*padding: 15px 32px ;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+
+
+}
+
+button#btn_traducir,#btn_descargar{
+	background-color: white; /* Green */
+    border: none;
+    color: white;
+    /*padding: 15px 32px ;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+
+}
+
+button#btn_descargar{
+	background-color: #4CAF50; /* Green */
+}
+
+/*
+button#btn_traducir {
+	font: 700 1em Tahoma, Arial, Verdana, sans-serif;
+	color: #fff; background-color: #59B0E5;
+	border: 1px solid #0074a5;
+	border-top: 1px solid #004370;
+	border-left: 1px solid #004370;
+	cursor: pointer;
+}
+ */
+
+button#btn_traducir {
+	width: auto; /* ie */
+	overflow: visible; /* ie */
+	padding: 3px 8px 2px 6px; /* ie */
+}
+
+button#btn_registrar{
+      background-color: orange;
+      color: white;
+      font-size:18px;
+
+}
+button#btn_limpiar{
+      background-color: red;
+      color: white;
+      font-size:16px;
+      width: 20px;
+
+}
+
+button#btn_1:active {
+       border: 9px double #FFD700;
+}
+button#btn_registrar:active {
+       border: 9px double #FFD700;
+}
+button#btn_limpiar:active {
+       border: 9px double #FFD700;
+}
+
+button#btn_traducir:active {
+       border: 9px double #FFD700;
+}
+button#btn_descargar:active {
+       border: 9px double #FFD700;
+}
+
+div#informacion{
+  float: right;
+  width: 300px;
+	text-align: justify;
+  padding-right: 150px;
+
+}
+div#infoUsuario{
+  float: right;
+  width: 200px;
+	height: 70px;
+	text-align: justify;
+  padding-right: 30px;
+  background-color: yellow;
+}
+
+div#divLog{
+  float: right;
+  width: 300px;
+  text-align: justify;
+  padding-right: 1033px;
+}
+
+div#divReg{
+  float: right;
+  width: 300px;
+  padding-left: 250px;
+
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    text-align: left;
+    padding: 5px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+th#thL1{
+  padding-left: 733px;
+}
+th#thLF{
+  padding-right: 7px;
+}
+
+table#tableLog {
+    border-collapse: collapse;
+    width: inherit;
+}
+
+
+/*
+h2#titulo {
+
+	text-align: center;
+	font-size:45px;
+}
+ul#menu {
+   padding: 0;
+}
+
+ul#menu li {
+   display: inline;
+}
+
+ul#menu li a {
+   font-size:20px;
+   background-color: #20B2AA;
+   color: white;
+   padding: 5px 5px;
+   text-decoration: none;
+   border-radius: 4px 4px 0 0;
+}
+
+div#sobrepuesta{
+	float: right;
+	background: url("engrane.jpg") no-repeat;
+	width:480px;
+	height:375px
+}
+
+
+
+*/
+
+input {
+font-size: 100%;
+color: #5a5854;
+background-color: #f2f2f2;
+border: 1px solid #bdbdbd;
+border-radius: 5px;
+padding: 5px 5px 5px 30px;
+background-repeat: no-repeat;
+background-position: 8px 9px;
+display: block;
+margin-bottom: 0px;
+
+}
+
+input#Lg1,#Lg2 {
+font-size: 100%;
+color: #5a5854;
+background-color: #f2f2f2;
+border: 1px solid #bdbdbd;
+border-radius: 5px;
+padding: 5px 2px 5px 5px;
+background-repeat: no-repeat;
+background-position: 8px 9px;
+display: block;
+margin-bottom: 0px;
+
+}
+
+
+input#archivo,#btn_Subir,#entrada,#salida{
+
+font-size: inherit;
+color: black;
+background-color: white;
+border-radius: inherit;
+padding: inherit;
+background-repeat: inherit;
+background-position: inherit;
+display: inherit;
+}
+
+input:focus {
+background-color: #ffffff;
+border: 1px solid #b1e1e4;
+}
+
+button#btn_showSub{
+background-color: #006400;
+}
+
+label#IniciarSesion{
+  font-size: 80%;
+  color: black;
+}
+/*
+table#tab1 {
+	margin-top: 200px;
+}
+
+th {
+	text-align: left;
+}*/
